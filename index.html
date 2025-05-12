@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Trading - Prediction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans p-4">
+  <div id="loginSection" class="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
+    <h1 class="text-xl font-bold mb-4">Login with Key</h1>
+    <input id="loginKey" type="text" placeholder="Enter Access Key" class="w-full p-2 border rounded mb-4">
+    <button onclick="loginWithKey()" class="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
+  </div>
+
+  <div id="appSection" class="hidden max-w-2xl mx-auto mt-10">
+    <div class="bg-white shadow rounded-lg p-6 mb-4">
+      <h2 class="text-lg font-semibold mb-2">Live Prediction</h2>
+      <div id="timer" class="text-4xl font-bold text-center mb-4">60</div>
+      <div id="prediction" class="text-center text-2xl">Waiting...</div>
+    </div>
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-lg font-semibold mb-2">History</h2>
+      <ul id="historyList" class="space-y-2"></ul>
+    </div>
+  </div>
+
+  <script src="firebase-config.js"></script>
+  <script src="prediction.js"></script>
+</body>
+</html>

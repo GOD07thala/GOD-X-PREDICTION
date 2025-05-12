@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-gray-200 p-6">
+  <div class="max-w-xl mx-auto bg-white p-6 shadow rounded">
+    <h1 class="text-2xl font-bold mb-4">Key Creator - Admin Panel</h1>
+    <input id="keyInput" type="text" placeholder="Enter Key" class="border p-2 w-full mb-2">
+    <input id="expiryInput" type="datetime-local" class="border p-2 w-full mb-2">
+    <button onclick="createKey()" class="bg-green-500 text-white px-4 py-2 rounded">Create Key</button>
+    <ul id="keyList" class="mt-4 space-y-2"></ul>
+  </div>
+
+  <script src="firebase-config.js"></script>
+  <script>
+    const db = firebase.firestore();
+    async function createKey() {
+      const key = document.getElementById('keyInput').value.trim();
+      const expiry = document.getElementById('expiryInput').value;
+      if (!key || !expiry) return alert('Fill all fields');
+      await db.collection('access_keys').doc(key).set({
+        expiry: new Date(expiry),
+        used: false
+      });
+      alert('Key created');
+      loadKeys();
+    }
+    async function loadKeys() {
+      const list = document.getElementById('keyList');
+      list.innerHTML = '';
+      const snap = await db.collection('access_keys').get();
+      snap.forEach(doc => {
+        const data = doc.data();
+        const li = document.createElement('li');
+        li.textContent = `${doc.id} - ${data.used ? 'Used' : 'Active'} - Exp: ${new Date(data.expiry.toDate()).toLocaleString()}`;
+        list.appendChild(li);
+      });
+    }
+    loadKeys();
+  </script>
+</body>
+</html>
